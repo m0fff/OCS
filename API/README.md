@@ -35,7 +35,7 @@ Select the Headers tab and enter the client_id and client_secret
 Run the query
 If successful, highlight the access_token in the response and right click to save to the OCS environment property bearer
 
-![Alt text](images/bearer.png?raw=true "Title")
+![Alt text](images/bearer.png?raw=true "Image showing how to save token to environment variable")
 
 4. Run one or more of the requests to explore the OCS API!
 
