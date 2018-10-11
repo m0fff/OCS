@@ -24,7 +24,7 @@ https://www.getpostman.com/collections/17a03ae8b256be85559f
 
 2. Load the environment file from this repository
 
-Manage Environemnt > Import
+Manage Environment > Import
 
 OCS.postman_environment.json
 
