@@ -1,0 +1,595 @@
+{
+	"info": {
+		"_postman_id": "cd1844ff-2f64-4024-96d1-f169d80daef0",
+		"name": "OCS - setup OMF ingress",
+		"description": "Steps required to enable OMF ingress\nLoad the associated environment file and set the following values:\n<p>\n<table border=0 cellpadding=0 cellspacing=0 width=502 style='border-collapse:\n collapse;table-layout:fixed;width:377pt'>\n <col width=150 style='mso-width-source:userset;mso-width-alt:5347;width:113pt'>\n <col width=204 style='mso-width-source:userset;mso-width-alt:7253;width:153pt'>\n <col width=148 style='mso-width-source:userset;mso-width-alt:5262;width:111pt'>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 width=150 style='height:14.4pt;width:113pt'>environment\n  variable</td>\n  <td class=xl1523697 width=204 style='width:153pt'>description</td>\n  <td class=xl1523697 width=148 style='width:111pt'>example</td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>url</td>\n  <td class=xl1523697></td>\n  <td class=xl6523697><a href=\"https://site.pi.com/\">https://site.pi.com</a></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>tenant_id</td>\n  <td class=xl1523697></td>\n  <td class=xl6523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client_id</td>\n  <td class=xl1523697>used to create objects</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client_secret</td>\n  <td class=xl1523697>used to create objects</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client</td>\n  <td class=xl1523697>to be used to send OMF payloads</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>namespace</td>\n  <td class=xl1523697></td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>topic</td>\n  <td class=xl1523697>will be associated with client</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>subscription</td>\n  <td class=xl1523697>will associate topic to namespace</td>\n  <td class=xl1523697></td>\n </tr>\n <![if supportMisalignedColumns]>\n <tr height=0 style='display:none'>\n  <td width=150 style='width:113pt'></td>\n  <td width=204 style='width:153pt'></td>\n  <td width=148 style='width:111pt'></td>\n </tr>\n <![endif]>\n</table>\n</p>",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80cee09e-cdd6-432a-8497-e868e2aad59a",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"bearer\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/identity/connect/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"identity",
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://staging.osipi.com/identity/connect/token",
+							"protocol": "https",
+							"host": [
+								"staging",
+								"osipi",
+								"com"
+							],
+							"path": [
+								"identity",
+								"connect",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 12 Mar 2019 20:59:26 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Content-Length",
+							"value": "953"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store, no-cache, max-age=0"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Operation-Id",
+							"value": "291489b1-c64f-4f43-bb16-dcbdbd3b14f6"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';script-src 'self';style-src 'self';font-src 'self';frame-ancestors 'self'"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "Deny"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjFFQ0JFRTc1NDY2NEJCQzlDOURBMkY0RkY5RjMyMzI1MDJGODQ4NUQiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJIc3Z1ZFVaa3U4bkoyaTlQLWZNakpRTDRTRjAifQ.eyJuYmYiOjE1NTI0MjQzNjYsImV4cCI6MTU1MjQyNzk2NiwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eXN0YWdpbmcub3Npc29mdC5jb20iLCJhdWQiOlsiaHR0cHM6Ly9pZGVudGl0eXN0YWdpbmcub3Npc29mdC5jb20vcmVzb3VyY2VzIiwib2NzYXBpIl0sImNsaWVudF9pZCI6IjMwZmY4Mzk5LTU1NjktNGE1Ny1hODBiLTg1ZTMzYTE0YzVjNCIsInRpZCI6ImVmZTI3MjU4LWY2ZDUtNGVhNi1hMDAxLTNlNGE4Mjc3NzcxMCIsImp0aSI6IjdhNzUxMTk1YzJjMTIzZWMwYmRiYjlkZjBmMzY1OWMxIiwic2NvcGUiOlsib2NzYXBpIl19.ecewBqN-5lolNo-psKAzJ2JTNdApoIm68t0UiOa3564AvtbcmNHGf33474ykMVAqKGTMq1DOckWRtUarxyJEP-Nktbf8JLk1t-NVyX6w2V4PPzFQ9F9EFh1NXsEJpx0VaFWs_w_OrHxqJ2zKS8zU1eRtDe9rNoM8anGUpnqYnt92c2FsGci31JYHvB3Fm0jIQtBHjGZIva6e1e01UFKI751lKBE7QOo2s6evkH6AORmAHtoB0gttA7tdk023hMFqe29sOrzlPeMx0lTUuUu_D5F_zdeDrRChDmxQmmXeg0Kucxvh2BxeyIyOxt3y8o5ydiNDlAxXqfveXV9voBS-LQ\",\n    \"expires_in\": 3600,\n    \"token_type\": \"Bearer\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create namespace",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "Authorization",
+						"value": "Bearer {{bearer}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": \"{{namespace}}\",\n\t\"TierId\": \"A1\",\n\t\"Region\": \"WestUS\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1-preview/Tenants/{{tenantid}}/Namespaces",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1-preview",
+						"Tenants",
+						"{{tenantid}}",
+						"Namespaces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get namespaces",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{bearer}}",
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman."
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/v1-preview/Tenants/{{tenantid}}/Namespaces/thenamespace",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1-preview",
+						"Tenants",
+						"{{tenantid}}",
+						"Namespaces",
+						"thenamespace"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a client - to be completed",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"{{apiversion}}",
+						"Tenants",
+						"{{tenantid}}",
+						"ClientCredentialClients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a86204d-985e-4a32-8b16-231f8b97568b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var omfclient = postman.getEnvironmentVariable(\"omfclient\")\r",
+							"if (omfclient === null) {\r",
+							"      console.log(\"variable omfclient not set\")  \r",
+							"} else {\r",
+							"    for (var i in jsonData) {\r",
+							"        if(jsonData[i].Name == omfclient) {\r",
+							"            postman.setEnvironmentVariable(\"omfclientid\", jsonData[i].ClientId);\r",
+							"        }\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"{{apiversion}}",
+						"Tenants",
+						"{{tenantid}}",
+						"ClientCredentialClients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a topic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b32edf3c-9b0e-44dd-8eb6-80a7f1501adb",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"topicid\", jsonData.Id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Name\": \"{{topic}}\",\r\n\t\"Description\": \"load sample data\",\r\n\t\"TenantId\": \"{{tenantid}}\",\r\n\t\"NamespaceId\": \"{{namespace}}\",\r\n\t\"Clientids\": [\r\n\t\t\"{{omfclientid}}\"\r\n\t]\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Topics",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"{{apiversion}}",
+						"Tenants",
+						"{{tenantid}}",
+						"Namespaces",
+						"{{namespace}}",
+						"Topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get topics - to be completed",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Name\": \"thetopic\",\r\n\t\"Description\": \"load sample data\",\r\n\t\"TenantId\": \"{{tenantid}}\",\r\n\t\"NamespaceId\": \"{{namespace}}\",\r\n\t\"Clientids\": [\r\n\t\t\"30ff8399-5569-4a57-a80b-85e33a14c5c4\"\r\n\t]\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Topics",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"{{apiversion}}",
+						"Tenants",
+						"{{tenantid}}",
+						"Namespaces",
+						"{{namespace}}",
+						"Topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a subscription",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Name\": \"{{subscription}}\",\r\n\t\"Description\": \"omf samples\",\r\n\t\"TopicId\": \"{{topiid}}\",\r\n\t\"TopicTenantId\": \"{{tenantid}}\",\r\n\t\"TenantId\": \"{{tenantid}}\",\r\n\t\"Type\": 1,\r\n\t\"NamespaceId\": \"{{namespace}}\",\r\n\t\"TopicNamespaceId\": \"{{namespace}}\",\r\n\t\"TierId\": \"A1\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Subscriptions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"{{apiversion}}",
+						"Tenants",
+						"{{tenantid}}",
+						"Namespaces",
+						"{{namespace}}",
+						"Subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Subscription - to be completed",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Name\": \"thesubscription\",\r\n\t\"Description\": \"omf samples\",\r\n\t\"TopicId\": \"e831b513-3d3e-4246-97e3-d4ec9329522c\",\r\n\t\"TopicTenantId\": \"{{tenantid}}\",\r\n\t\"TenantId\": \"{{tenantid}}\",\r\n\t\"Type\": 1,\r\n\t\"NamespaceId\": \"{{namespace}}\",\r\n\t\"TopicNamespaceId\": \"{{namespace}}\",\r\n\t\"TierId\": \"A1\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Subscriptions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"{{apiversion}}",
+						"Tenants",
+						"{{tenantid}}",
+						"Namespaces",
+						"{{namespace}}",
+						"Subscriptions"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c8b42243-df26-4716-bbc0-f87ac5a105fe",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "bb176fbb-8ad8-42fb-af82-d4fb5e1df687",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
