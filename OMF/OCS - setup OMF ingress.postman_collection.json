@@ -1,11 +1,311 @@
 {
 	"info": {
-		"_postman_id": "cd1844ff-2f64-4024-96d1-f169d80daef0",
+		"_postman_id": "fd144bdc-9a7e-468f-8e2c-0dee9f3b10db",
 		"name": "OCS - setup OMF ingress",
-		"description": "Steps required to enable OMF ingress\n<p>\nPrerequisites\n<ul>\n<li>access to an OSIsoft Cloud Services tenant</li>\n<li>information for the following fields below.</li>\n</ul>\n<p>\nLoad the associated environment file and set the following values:\n<p>\n<table border=0 cellpadding=0 cellspacing=0 width=579 style='border-collapse:\n collapse;table-layout:fixed;width:435pt'>\n <col width=150 style='mso-width-source:userset;mso-width-alt:5347;width:113pt'>\n <col width=281 style='mso-width-source:userset;mso-width-alt:9984;width:211pt'>\n <col width=148 style='mso-width-source:userset;mso-width-alt:5262;width:111pt'>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 width=150 style='height:14.4pt;width:113pt'>environment\n  variable</td>\n  <td class=xl1523697 width=281 style='width:211pt'>description</td>\n  <td class=xl1523697 width=148 style='width:111pt'>example</td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>tenant site name</td>\n  <td class=xl1523697></td>\n  <td class=xl6523697><a href=\"https://site.pi.com/\">https://site.pi.com</a></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>tenantid</td>\n  <td class=xl1523697></td>\n  <td class=xl6523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>namespace</td>\n  <td class=xl1523697>name of new or existing namespace</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client_id</td>\n  <td class=xl1523697>used to create objects</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client_secret</td>\n  <td class=xl1523697>used to create objects</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client</td>\n  <td class=xl1523697>client identy to be used to send OMF payloads</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>topic</td>\n  <td class=xl1523697>will be associated with client</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>subscription</td>\n  <td class=xl1523697>will associate topic to namespace</td>\n  <td class=xl1523697></td>\n </tr>\n <![if supportMisalignedColumns]>\n <tr height=0 style='display:none'>\n  <td width=150 style='width:113pt'></td>\n  <td width=281 style='width:211pt'></td>\n  <td width=148 style='width:111pt'></td>\n </tr>\n <![endif]>\n</table>\n</p>",
+		"description": "Steps required to enable OMF ingress to OCS\n<p>\nPrerequisites\n<ul>\n<li>access to an OSIsoft Cloud Services tenant</li>\n<li>information for the following fields below.</li>\n</ul>\n<p>\nSteps to run\n<ul>\n<li>Load the associated environment file and set the environment variables listed in the table below</li>\n<li>Run the requests in the parent folder in a new tenant.<b>Note: for the create client id requests review the result and record the secrets returned - these will not be accessible again.<b>\n</li>\n<li>Generate a token using the omfclient Id and secret</li>\n<li>Use the token in an OMF example to send data to OCS!\n</ul>\n<p>\nThe subfolder includes requests to verify object creation and help to set variables if objects already exist.\n<p>\n<p>\n<table border=0 cellpadding=0 cellspacing=0 width=579 style='border-collapse:\n collapse;table-layout:fixed;width:435pt'>\n <col width=150 style='mso-width-source:userset;mso-width-alt:5347;width:113pt'>\n <col width=281 style='mso-width-source:userset;mso-width-alt:9984;width:211pt'>\n <col width=148 style='mso-width-source:userset;mso-width-alt:5262;width:111pt'>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 width=150 style='height:14.4pt;width:113pt'>environment\n  variable</td>\n  <td class=xl1523697 width=281 style='width:211pt'>description</td>\n  <td class=xl1523697 width=148 style='width:111pt'>example</td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>tenant site name</td>\n  <td class=xl1523697></td>\n  <td class=xl6523697><a href=\"https://site.pi.com/\">https://site.pi.com</a></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>tenantid</td>\n  <td class=xl1523697></td>\n  <td class=xl6523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>namespace</td>\n  <td class=xl1523697>name of new or existing namespace</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client_id</td>\n  <td class=xl1523697>used to create objects</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>client_secret</td>\n  <td class=xl1523697>used to create objects</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>omfclient</td>\n  <td class=xl1523697 colspan=2>client identity to be used to send OMF\n  payloads. Each client identify can s<span style='display:none'>upport\n  multiple secrets.</span></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>topic</td>\n  <td class=xl1523697>will be associated with omfclient</td>\n  <td class=xl1523697></td>\n </tr>\n <tr height=19 style='height:14.4pt'>\n  <td height=19 class=xl1523697 style='height:14.4pt'>subscription</td>\n  <td class=xl1523697>will associate topic to namespace</td>\n  <td class=xl1523697></td>\n </tr>\n <![if supportMisalignedColumns]>\n <tr height=0 style='display:none'>\n  <td width=150 style='width:113pt'></td>\n  <td width=281 style='width:211pt'></td>\n  <td width=148 style='width:111pt'></td>\n </tr>\n <![endif]>\n</table>\n</p>",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "get requests",
+			"item": [
+				{
+					"name": "get namespaces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4c1d9ad-5a47-4e53-af4b-b98ede7a2a89",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/v1-preview/Tenants/{{tenantid}}/Namespaces",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1-preview",
+								"Tenants",
+								"{{tenantid}}",
+								"Namespaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get client id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8a86204d-985e-4a32-8b16-231f8b97568b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var omfclient = postman.getEnvironmentVariable(\"omfclient\")\r",
+									"if (omfclient === null) {\r",
+									"      console.log(\"variable omfclient not set\")  \r",
+									"} else {\r",
+									"    for (var i in jsonData) {\r",
+									"        if(jsonData[i].Name == omfclient) {\r",
+									"            postman.setEnvironmentVariable(\"omfclientid\", jsonData[i].ClientId);\r",
+									"        }\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"{{apiversion}}",
+								"Tenants",
+								"{{tenantid}}",
+								"ClientCredentialClients",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get topics",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "40d300cc-373b-4005-a377-4e8a0aef07bf",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var topic = postman.getEnvironmentVariable(\"topic\")\r",
+									"if (topic === null) {\r",
+									"      console.log(\"variable topicid not set\")\r",
+									"} else {\r",
+									"    for (var i in jsonData) {\r",
+									"        if(jsonData[i].Name == topic) {\r",
+									"            postman.setEnvironmentVariable(\"topicid\", jsonData[i].Id);\r",
+									"        }\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Topics",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"{{apiversion}}",
+								"Tenants",
+								"{{tenantid}}",
+								"Namespaces",
+								"{{namespace}}",
+								"Topics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Subscription",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"{{apiversion}}",
+								"Tenants",
+								"{{tenantid}}",
+								"Namespaces",
+								"{{namespace}}",
+								"Subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get omf client id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients/{{omfclientid}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"{{apiversion}}",
+								"Tenants",
+								"{{tenantid}}",
+								"ClientCredentialClients",
+								"{{omfclientid}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Useful if \n- objects already exist and create request fails - these get requests include tests to set required environment variables used in subsequent requests\n- to verify if object was created.\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6193aad4-1aec-41cd-b73d-9e556a889235",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "20176e8c-2479-4d3e-a59d-e858b4c9fe4c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
 		{
 			"name": "get token",
 			"event": [
@@ -111,7 +411,29 @@
 			"response": []
 		},
 		{
-			"name": "get namespaces",
+			"name": "get Account Member role Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "181a2058-9097-4e8b-9b33-4f738bcbb613",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var role = postman.getEnvironmentVariable(\"role\")\r",
+							"if (role === null) {\r",
+							"      console.log(\"variable role not set\")  \r",
+							"} else {\r",
+							"    for (var i in jsonData) {\r",
+							"        if(jsonData[i].Name === role) {\r",
+							"            postman.setEnvironmentVariable(\"roleid\", jsonData[i].Id);\r",
+							"        }\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -130,7 +452,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/api/v1-preview/Tenants/{{tenantid}}/Namespaces/{{namespace}}",
+					"raw": "{{url}}/api/v1-preview/Tenants/{{tenantid}}/Roles?skip=0&count=20",
 					"host": [
 						"{{url}}"
 					],
@@ -139,18 +461,38 @@
 						"v1-preview",
 						"Tenants",
 						"{{tenantid}}",
-						"Namespaces",
-						"{{namespace}}"
+						"Roles"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "count",
+							"value": "20"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "create a client - to be completed - create manually using OCS API console",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "create a client id for omf application instance and/or instances",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8792fcf9-804f-407b-b6df-393d3b5b500b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"omfclientid\", jsonData.ClientId);",
+							"postman.setEnvironmentVariable(\"omfclientsecret\", jsonData.ClientSecret);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -162,19 +504,18 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
 						"type": "text",
-						"value": "application/json",
-						"disabled": true
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{        \n\t\"RoleIds\": [\n\t\t\"{{roleid}}\"\n\t\t],\n        \"Name\": \"{{omfclient}}\",\n        \"Enabled\": true,\n        \"Tags\": [ \"{{omfclient}}\",\"device0\",\"omf\" ]\n    }"
 				},
 				"url": {
 					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients/",
@@ -189,67 +530,8 @@
 						"ClientCredentialClients",
 						""
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get client",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8a86204d-985e-4a32-8b16-231f8b97568b",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
-							"var omfclient = postman.getEnvironmentVariable(\"omfclient\")\r",
-							"if (omfclient === null) {\r",
-							"      console.log(\"variable omfclient not set\")  \r",
-							"} else {\r",
-							"    for (var i in jsonData) {\r",
-							"        if(jsonData[i].Name == omfclient) {\r",
-							"            postman.setEnvironmentVariable(\"omfclientid\", jsonData[i].ClientId);\r",
-							"        }\r",
-							"    }\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
 				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"{{apiversion}}",
-						"Tenants",
-						"{{tenantid}}",
-						"ClientCredentialClients"
-					]
-				}
+				"description": "Multiple secrets can be created for one client id"
 			},
 			"response": []
 		},
@@ -291,54 +573,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n\t\"Name\": \"{{topic}}\",\r\n\t\"Description\": \"load sample data\",\r\n\t\"TenantId\": \"{{tenantid}}\",\r\n\t\"NamespaceId\": \"{{namespace}}\",\r\n\t\"Clientids\": [\r\n\t\t\"{{omfclientid}}\"\r\n\t]\r\n}"
-				},
-				"url": {
-					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Topics",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"{{apiversion}}",
-						"Tenants",
-						"{{tenantid}}",
-						"Namespaces",
-						"{{namespace}}",
-						"Topics"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get topics",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{bearer}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
 				},
 				"url": {
 					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Topics",
@@ -403,10 +637,7 @@
 			"response": []
 		},
 		{
-			"name": "get Subscription",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "create an additional secret for omf application client id",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -418,7 +649,7 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -429,10 +660,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n  \"Expiration\": \"2020-11-04T10:00:00-8:00\",\r\n  \"Description\": \"site0:device1\"\r\n}\r\n"
 				},
 				"url": {
-					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/Namespaces/{{namespace}}/Subscriptions",
+					"raw": "{{url}}/api/{{apiversion}}/Tenants/{{tenantid}}/ClientCredentialClients/{{omfclientid}}/Secrets/",
 					"host": [
 						"{{url}}"
 					],
@@ -441,9 +672,10 @@
 						"{{apiversion}}",
 						"Tenants",
 						"{{tenantid}}",
-						"Namespaces",
-						"{{namespace}}",
-						"Subscriptions"
+						"ClientCredentialClients",
+						"{{omfclientid}}",
+						"Secrets",
+						""
 					]
 				}
 			},
