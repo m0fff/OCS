@@ -4,7 +4,8 @@ Includes two files
 1. Postman collection
 2. Postman environment to be used with the collection
 
-Load the collection, associated environment file and set the following values:
+Load the collection, associated environment file and review collection documentation.
+Values that need to be updated in environment file are listed in the table below.
 <p>
 <table border=0 cellpadding=0 cellspacing=0 width=579 style='border-collapse:
  collapse;table-layout:fixed;width:435pt'>
@@ -43,13 +44,14 @@ Load the collection, associated environment file and set the following values:
   <td class=xl1523697></td>
  </tr>
  <tr height=19 style='height:14.4pt'>
-  <td height=19 class=xl1523697 style='height:14.4pt'>client</td>
-  <td class=xl1523697>client identy to be used to send OMF payloads</td>
-  <td class=xl1523697></td>
+  <td height=19 class=xl1523697 style='height:14.4pt'>omfclient</td>
+  <td class=xl1523697 colspan=2>client identity to be used to send OMF
+  payloads. Each client identify can s<span style='display:none'>upport
+  multiple secrets.</span></td>
  </tr>
  <tr height=19 style='height:14.4pt'>
   <td height=19 class=xl1523697 style='height:14.4pt'>topic</td>
-  <td class=xl1523697>will be associated with client</td>
+  <td class=xl1523697>will be associated with omfclient</td>
   <td class=xl1523697></td>
  </tr>
  <tr height=19 style='height:14.4pt'>
