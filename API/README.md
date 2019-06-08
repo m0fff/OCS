@@ -1,7 +1,12 @@
 # OCS
 OSIsoft Cloud Services examples
 
-Example API calls to query existing data in a tenant
+Two sets of examples in this folder to use the OCS REST API
+1. Jupyter notebooks - view files directly in GitHub - note files currenlty will not run start to finish due to features used that are not in the OCS Python library
+2. POSTMAN - see information below.
+
+
+POSTMAN example API calls to query existing data in a tenant
 
 Requirements:
 - Files in this repository
