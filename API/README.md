@@ -29,18 +29,21 @@ https://www.getpostman.com/collections/17a03ae8b256be85559f
 
 2. Load the environment file from this repository
 
-Manage Environment > Import
+Manage Environment > Import > OCS.postman_environment.json
 
-OCS.postman_environment.json
+3. Configure environment
+
+Select OCS as the environment and update all variables down to client_secret
+
+Notes: 
+Update current value and *not* initial value for sensitive variables.   
+stream_write variable will be used to overrite tag and metadata information if set and REST query sent
 
 3. Obtain a bearer token
 
-Open the collection and select the Get Token entry.
-Select the Headers tab and enter the client_id and client_secret
-Run the query
-If successful, highlight the access_token in the response and right click to save to the OCS environment property bearer
-
-![Alt text](images/bearer.png?raw=true "Image showing how to save token to environment variable")
+Open the collection, select the get token request and send before running any other queries.
+The token is valid for one hour.
 
 4. Run one or more of the requests to explore the OCS API!
 
+Note: there are two write REST API requests that will not work unless the stream_write environment variable is set.
