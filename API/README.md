@@ -1,8 +1,8 @@
 # OCS
 OSIsoft Cloud Services examples
 
-Two sets of examples in this folder to use the OCS REST API
-1. Jupyter notebooks in the sds_overview folder - view files directly in GitHub or access using Jupyter notebook or lab
+Two sets of examples to use the OCS REST API
+1. Jupyter notebooks the repository https://github.com/mofff/sds_overview
 2. POSTMAN - see information below.
 
 POSTMAN example API calls to query existing data in a tenant
