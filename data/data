@@ -1,0 +1,30 @@
+[
+  {
+    "containerid": "Asset2.Location",
+    "values": [
+      {
+        "IndexedDateTime": "REPLACEWITHUTCDATETIME",
+        "latitude": "40.446° N",
+        "longitude": "79.982° W"
+      }
+    ]
+  },
+  {
+    "containerid": "Asset2.Temperature",
+    "values": [
+      {
+        "IndexedDateTime": "REPLACEWITHUTCDATETIME",
+        "value": 300
+      }
+    ]
+  },
+ {
+    "containerid": "Asset2.Status",
+    "values": [
+      {
+        "IndexedDateTime": "REPLACEWITHUTCDATETIME",
+        "value": "Ok"
+      }
+    ]
+  }
+]

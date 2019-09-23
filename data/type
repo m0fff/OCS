@@ -1,0 +1,53 @@
+[
+  {
+    "id": "gps-coords-dd",
+    "description": "GPS Coordinates in decimal degrees",
+    "type": "object",
+    "classification": "dynamic",
+    "properties": {
+      "IndexedDateTime": {
+        "type": "string",
+        "format": "date-time",
+        "isindex": true
+      },
+      "latitude": {
+        "type": "string"
+      },
+      "longitude": {
+        "type": "string"
+      }
+    }
+  },
+  {
+    "id": "stream-number",
+    "description": "Timestamp and real-time value",
+    "type": "object",
+    "classification": "dynamic",
+    "properties": {
+      "IndexedDateTime": {
+        "type": "string",
+        "format": "date-time",
+        "isindex": true
+      },
+      "value": {
+        "type": "number"
+      }
+    }
+  },
+  {
+    "id": "stream-string",
+    "description": "Timestamp and real-time value",
+    "type": "object",
+    "classification": "dynamic",
+    "properties": {
+      "IndexedDateTime": {
+        "type": "string",
+        "format": "date-time",
+        "isindex": true
+      },
+      "value": {
+        "type": "string"
+      }
+    }
+  }
+]

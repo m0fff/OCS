@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Asset2.Location",
+    "typeid": "gps-coords-dd"
+  },
+  {
+    "id": "Asset2.Temperature",
+    "typeid": "stream-number"
+  },
+  {
+    "id": "Asset2.Status",
+    "typeid": "stream-string"
+  }
+]
