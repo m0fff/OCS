@@ -1,3 +1,9 @@
+
+Python example to send OSIsoft Message Format messages to
+- OSIsoft Cloud Services
+- Edge Data Store
+- PI Server via PI Web API or PI Connector Relay.
+
 Postman example to show steps required to setup OMF ingress
 
 Includes two files
