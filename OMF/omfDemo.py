@@ -14,22 +14,23 @@
 #
 """
 
-Purpose: provide a method of sending and validating formatted json files to OSIsoft Message Format
-endpoint(s).
+Purpose: provide a method of sending formatted json files to OSIsoft Message
+Format endpoint(s).
 
 Requirements:
     1. configuration information for OMF endpoint, default: config.ini
     2. directory with OMF message type files to send. default location: data/
     file names are the OMF message type, e.g.: type, container and data
 
-    defaults can be customized, to determine arguments run: python omfDemo.py -h
+    defaults can be customized,
+    to determine arguments run: python omfDemo.py -h
 
 Usage:
-    1. add, remove, update one or more of the three message type files in the data folder as required
+    1. add, remove, update one or more of the three message type files in the
+    data folder as required.
     file names should match OMF message types, e.g: type, container or data
-    2. configure config.ini endpoint
-    2. for usage run
-        Python3 omfDemo.py -h
+    2. configure config.ini for required endpoint
+    3. run it! for usage examples: python3 omfDemo.py -h
 
 Note:
     if the data file includes the text: REPLACEWITHUTCDATETIME
@@ -39,7 +40,7 @@ See Also:
     1. https://cloud.osisoft.com/omf - OMF editor
     2. https://github.com/osisoft/OSI-Samples-OMF - script is based on this code
 
-Version: 2019.09.27.02
+Version: 2019.10.04
 """
 import requests
 from requests.auth import HTTPBasicAuth
@@ -56,21 +57,21 @@ import datetime as dt
 import argparse
 import base64
 
-# OMF endpoint environment definition - defaults
+# OMF endpoint environment definition - default
 config_omf_endpoint = 'config.ini'
 
-# location of omf payload files to process. only "data" supported
+# location of omf payload files to processs - default
 data_dir = "data"
 
-# if string exists in OMF data payload file, replace with current utc time:
+# if string exists in OMF data payload file, replace with current utc time
 data_file_replace_text =  'REPLACEWITHUTCDATETIME'
 
-# verify options, ref:see process_arguments()
+# verify options and exit?, ref:see process_arguments()
 verify = False
 
 # HTTP connection default
 VERIFY_SSL = True
-# for when this is false
+# for when this is false, currently hard coded for specific endpoints
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # which endpoint? re: see process_arguments()
@@ -87,8 +88,8 @@ logger.setLevel(logging.CRITICAL)
 #logging.debug("tap tap")
 
 class base_omf:
-    """ base class to send OSIsoft Message Format messages to endpoints
-    base class assumes OCS endpoint
+    """
+    base class to send OSIsoft Message Format messages to endpoints
     """
 
     def __init__(self,config_omf_endpoint="config.ini"):
@@ -117,7 +118,6 @@ class base_omf:
         return None
 
     def get_headers(self,message_type, action = "create"):
-        #,compression = None):
         """
         Assemble HTTP headers
         """
@@ -128,17 +128,10 @@ class base_omf:
             'messageformat': 'JSON',
             'omfversion': self.omf_version,
         }
-
-        """ unsupported """
-        #    'compression': self.compression
-        #if (compression == "gzip"):
-        #    msg_headers["compression"] = "gzip"
-
         return msg_headers
 
     def send_omf_payload(self,message_type,payload):
         """
-        endpoint - base_omf or derived class object
         message_type - OMF message type
         payload - OMF formatted message
         """
@@ -149,14 +142,15 @@ class base_omf:
             data = payload,
             verify = self.verify_ssl
         )
-
         if response.status_code < 200 or response.status_code >= 300:
-            response.close()
             print(f'Error {message_type} message: {response.status_code} {response.text}')
         else:
             print(f'status: {response.status_code}')
 
     def get_url(self):
+        """
+        return the completed url for the endpoint
+        """
         return(None)
 
 class ocs_omf(base_omf):
@@ -177,7 +171,6 @@ class ocs_omf(base_omf):
         self.omf_version = None
 
         self.get_config()
-
 
     def get_config(self):
         """ retrieve endpoint details """
@@ -329,14 +322,15 @@ send OSIsoft Message format (OMF) messages to OMF endpoints.
 usage:
 1. add OMF messages to files in a folder: type, container or data based upon message type.
    Not all files need to be created
-2. create or update a config.ini file for the required endpoint
+2. create or update a config.ini file for the required endpoint.
+   Examples included in omfDemo.zip
 3. send the messages, examples:
 
    endpoint: OSIsoft Cloud Services, config file: config.ini, data dir: data
 
    python3 omfDemo.py
 
-   endpoint: Edge Data Store
+   endpoint: Edge Data Store, config file: config-eds.ini
 
    python3 omfDemo.py -c config-eds.ini eds
 
@@ -348,14 +342,14 @@ usage:
 
    python3 omfDemo.py relay""")
     parser.add_argument('-c', dest='config_omf_endpoint',
-                        help="""name of configuration file for OMF endpoint, 
+                        help="""name of configuration file for OMF endpoint,
                         default config.ini""")
     parser.add_argument('-d', dest='data_dir',
-                        help="""name of the data directory containing the OMF 
+                        help="""name of the data directory containing the OMF
                         payload files, default: data""")
     parser.add_argument('-v', dest='verify', action='store_true',
                         help='display config, data directory and exit')
-    parser.add_argument('endpoint', default="ocs", 
+    parser.add_argument('endpoint', default="ocs",
                         choices=['ocs', 'eds', 'pi3','relay'],
                         nargs='?',
                         help="""endpoint, one of: ocs, eds, pi3 or relay
@@ -380,7 +374,7 @@ def update_data_payload(payload):
         if payload.find(data_file_replace_text) != -1:
             datetime = dt.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
             payload = payload.replace(data_file_replace_text,datetime)
-            return payload
+        return payload
     return None
 
 def main():
@@ -392,7 +386,7 @@ def main():
         print(f'configuration: {config_omf_endpoint}\ndata file(s) directory: {data_dir}')
         exit(0)
 
-    # determine which endpoint and create class object
+    # determine which endpoint and instance of class object
     logging.debug(f'endpoint: {omf_endpoint}')
     if omf_endpoint == "ocs":
         endpoint = ocs_omf(config_omf_endpoint)
@@ -408,12 +402,12 @@ def main():
     # potential list of OMF message formatted files to load
     omf_payloads = ['type','container','data']
 
-    # if payload exists as a file send it to OMF endpoint
+    # if payload file exists send to OMF endpoint
     for payload_type in omf_payloads:
         f = Path(f'{data_dir}/{payload_type}')
         if f.exists():
             payload_content = f.read_text()
-            # if payload is a datafile, check for string to update with current utc time
+            # if payload is a data file, check for string to update with current utc time for dynamic properties
             if payload_type == "data":
                 payload_content = update_data_payload(payload_content)
                 logging.debug(f'payload: {payload_content}')
