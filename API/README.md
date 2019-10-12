@@ -2,16 +2,15 @@
 OSIsoft Cloud Services examples
 
 Two sets of examples to use the OCS REST API
-1. Jupyter notebooks the repository https://github.com/mofff/sds_overview
+1. Jupyter notebooks, see the repository https://github.com/mofff/sds_overview
 2. POSTMAN - see information below.
 
 POSTMAN example API calls to query existing data in a tenant
 
 Requirements:
-- Files in this repository
+- environment file in this repository to load into POSTMAN
 - Access to postman
-- client_id and client_secret for the tenant
-- Only works on defined tenant at this time.
+- tenant and namespace name, client_id and client_secret for the tenant, 3 streams with data.
 
 Usage:
 
@@ -35,14 +34,15 @@ Manage Environment > Import > OCS.postman_environment.json
 Select OCS as the environment and update all variables down to client_secret
 
 Notes: 
-Update current value and *not* initial value for sensitive variables.   
-stream_write variable will be used to overrite tag and metadata information if set and REST query sent
+Update current value and *not* initial value for sensitive variables.
+
+Warning:
+One metadata and one tag request will overwrite any metadata or tag defintions for the stream defined by the variable stream_write. By default this is not set.
 
 3. Obtain a bearer token
 
-Open the collection, select the get token request and send before running any other queries.
-The token is valid for one hour.
+Open the collection, select and run the get token request. The token is valid for one hour.
 
 4. Run one or more of the requests to explore the OCS API!
 
-Note: there are two write REST API requests that will not work unless the stream_write environment variable is set.
+Note: there are two write REST API requests that will not work unless the stream_write environment variable is set. Setting and running these requeests will overwrite metadata and tag information.
