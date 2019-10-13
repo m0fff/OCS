@@ -45,4 +45,4 @@ Open the collection, select and run the get token request. The token is valid fo
 
 4. Run one or more of the requests to explore the OCS API!
 
-Note: there are two write REST API requests that will not work unless the stream_write environment variable is set. Setting and running these requeests will overwrite metadata and tag information.
+Note: there are two write REST API requests that will not work unless the stream_write environment variable is set. Setting and running these requests will overwrite metadata and tag information.
