@@ -40,7 +40,7 @@ See Also:
     1. https://cloud.osisoft.com/omf - OMF editor
     2. https://github.com/osisoft/OSI-Samples-OMF - script is based on this code
 
-Version: 2019.10.04
+Version: 2019.10.12
 """
 import requests
 from requests.auth import HTTPBasicAuth
@@ -106,7 +106,7 @@ class base_omf:
         Reads the config file for the field specified
         """
         config = configparser.ConfigParser()
-        config.read(self.config_omf_endpoint)
+        config.read(Path(self.config_omf_endpoint))
         return config.has_option(section,field) and config.get(section,field) or ""
 
     def get_config(self):
@@ -144,6 +144,7 @@ class base_omf:
         )
         if response.status_code < 200 or response.status_code >= 300:
             print(f'Error {message_type} message: {response.status_code} {response.text}')
+            pprint.pprint(response.content)
         else:
             print(f'status: {response.status_code}')
 
