@@ -40,8 +40,9 @@ See Also:
     1. https://cloud.osisoft.com/omf - OMF editor
     2. https://github.com/osisoft/OSI-Samples-OMF - script is based on this code
 
-Version: 2019.10.12
 """
+__version__  =  "2019.11.29"
+
 import requests
 from requests.auth import HTTPBasicAuth
 import urllib3
@@ -56,12 +57,19 @@ import re
 import datetime as dt
 import argparse
 import base64
+from enum import Enum
 
 # OMF endpoint environment definition - default
 config_omf_endpoint = 'config.ini'
 
 # location of omf payload files to processs - default
 data_dir = "data"
+
+# list of OMF message formatted files to load - default
+omf_payload = ['type','container','data']
+
+# OMF action - default
+omf_action = "create"
 
 # if string exists in OMF data payload file, replace with current utc time
 data_file_replace_text =  'REPLACEWITHUTCDATETIME'
@@ -77,15 +85,31 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # which endpoint? re: see process_arguments()
 omf_endpoint = None
 
-# setup debugging
+# setup logging
 logger = logging.getLogger()
-
 logger.setLevel(logging.CRITICAL)
-#or
-#logger.setLevel(logging.DEBUG)
 
-# to trigger debugging from requests add:
-#logging.debug("tap tap")
+class OMF_ACTION(Enum):
+    """
+    define supported OMF action header, used to validate user input if specified
+    care of: https://stackoverflow.com/questions/43968006/support-for-enum-arguments-in-argparse
+    """
+    create = 'create',
+    update = 'update',
+    delete = 'delete'
+
+    def __str__(self):
+        return self.name.lower()
+
+    def __repr__(self):
+        return str(self)
+
+    @staticmethod
+    def argparse(s):
+        try:
+            return OMF_ACTION[s.lower()]
+        except KeyError:
+            return s
 
 class base_omf:
     """
@@ -117,14 +141,14 @@ class base_omf:
         """ get authentication for the omf endpoint """
         return None
 
-    def get_headers(self,message_type, action = "create"):
+    def get_headers(self,message_type):
         """
         Assemble HTTP headers
         """
         msg_headers = {
             'Authorization': self.get_auth(),
             'messagetype': message_type,
-            'action': action,
+            'action': omf_action,
             'messageformat': 'JSON',
             'omfversion': self.omf_version,
         }
@@ -136,6 +160,7 @@ class base_omf:
         payload - OMF formatted message
         """
         logging.debug(f'url: {self.get_url()}, headers: {self.get_headers(message_type)}')
+        logging.debug(f'payload: {payload}')
         response = requests.post(
             self.get_url(),
             headers = self.get_headers(message_type),
@@ -144,7 +169,7 @@ class base_omf:
         )
         if response.status_code < 200 or response.status_code >= 300:
             print(f'Error {message_type} message: {response.status_code} {response.text}')
-            pprint.pprint(response.content)
+            #pprint.pprint(response.content)
         else:
             print(f'status: {response.status_code}')
 
@@ -314,7 +339,7 @@ class pi3_relay_omf(base_omf):
         return omf_endpoint
 
 def process_arguments():
-    global config_omf_endpoint, data_dir, verify,omf_endpoint
+    global config_omf_endpoint, data_dir, verify,omf_endpoint, omf_action, omf_payload
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description="""
 
@@ -324,7 +349,6 @@ usage:
 1. add OMF messages to files in a folder: type, container or data based upon message type.
    Not all files need to be created
 2. create or update a config.ini file for the required endpoint.
-   Examples included in omfDemo.zip
 3. send the messages, examples:
 
    endpoint: OSIsoft Cloud Services, config file: config.ini, data dir: data
@@ -342,26 +366,42 @@ usage:
    endpoint: PI Server (PI Connector Relay)
 
    python3 omfDemo.py relay""")
+    parser.add_argument('-a', dest='action', type=OMF_ACTION.argparse,
+                        choices=list(OMF_ACTION),
+                        help="""OMF action, default create""")
     parser.add_argument('-c', dest='config_omf_endpoint',
+                        type=argparse.FileType('r', encoding='UTF-8'),
                         help="""name of configuration file for OMF endpoint,
                         default config.ini""")
     parser.add_argument('-d', dest='data_dir',
                         help="""name of the data directory containing the OMF
                         payload files, default: data""")
-    parser.add_argument('-v', dest='verify', action='store_true',
-                        help='display config, data directory and exit')
+    parser.add_argument('-m', dest='message', nargs='*',
+                        help="""specify message files to process,
+                        specify as last argument, including after endpoint,
+                        default: all, i.e.: type, container, data""")
+    parser.add_argument('-r', dest='review', action='store_true',
+                        help='display configuration, version and exit')
+    parser.add_argument('-v', dest='verbose', action='store_true',
+                        help="""display operation details""")
     parser.add_argument('endpoint', default="ocs",
                         choices=['ocs', 'eds', 'pi3','relay'],
                         nargs='?',
                         help="""endpoint, one of: ocs, eds, pi3 or relay
                         (default: %(default)s). """)
     args = parser.parse_args()
-    if args.verify is not None:
-        verify = args.verify
     if args.config_omf_endpoint is not None:
-        config_omf_endpoint = args.config_omf_endpoint
+        config_omf_endpoint = args.config_omf_endpoint.name
     if args.data_dir is not None:
         data_dir = args.data_dir
+    if args.action is not None:
+        omf_action = str(args.action)
+    if args.message is not None:
+        omf_payload = args.message
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+        # to trigger debugging from requests, add:
+        logging.debug("debug on")
     omf_endpoint = args.endpoint
     return args
 
@@ -379,12 +419,19 @@ def update_data_payload(payload):
     return None
 
 def main():
-    global omf_endpoint
+    global omf_endpoint, omf_action, omf_payload
 
     args = process_arguments()
 
-    if args.verify:
-        print(f'configuration: {config_omf_endpoint}\ndata file(s) directory: {data_dir}')
+    if args.review:
+        print(f"""
+script version:         {__version__}
+endpoint:               {omf_endpoint}
+configuration:          {config_omf_endpoint}
+data file(s) directory: {data_dir}
+omf files to send:      {omf_payload}
+omf action:             {omf_action}
+""")
         exit(0)
 
     # determine which endpoint and instance of class object
@@ -400,11 +447,8 @@ def main():
     else:
         print("this is unexpected")
 
-    # potential list of OMF message formatted files to load
-    omf_payloads = ['type','container','data']
-
     # if payload file exists send to OMF endpoint
-    for payload_type in omf_payloads:
+    for payload_type in omf_payload:
         f = Path(f'{data_dir}/{payload_type}')
         if f.exists():
             payload_content = f.read_text()
