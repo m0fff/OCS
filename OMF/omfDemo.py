@@ -41,7 +41,7 @@ See Also:
     2. https://github.com/osisoft/OSI-Samples-OMF - script is based on this code
 
 """
-__version__  =  "2019.11.29"
+__version__  =  "2019.11.21"
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -373,17 +373,17 @@ usage:
                         type=argparse.FileType('r', encoding='UTF-8'),
                         help="""name of configuration file for OMF endpoint,
                         default config.ini""")
-    parser.add_argument('-d', dest='data_dir',
-                        help="""name of the data directory containing the OMF
-                        payload files, default: data""")
+    parser.add_argument('-d', dest='verbose', action='store_true',
+                        help="""display operation details""")
+    parser.add_argument('-f', dest='data_dir',
+                        help="""name of the data directory/folder containing 
+                        the OMF payload files, default: data""")
     parser.add_argument('-m', dest='message', nargs='*',
                         help="""specify message files to process,
                         specify as last argument, including after endpoint,
                         default: all, i.e.: type, container, data""")
-    parser.add_argument('-r', dest='review', action='store_true',
+    parser.add_argument('-v', dest='review', action='store_true',
                         help='display configuration, version and exit')
-    parser.add_argument('-v', dest='verbose', action='store_true',
-                        help="""display operation details""")
     parser.add_argument('endpoint', default="ocs",
                         choices=['ocs', 'eds', 'pi3','relay'],
                         nargs='?',
