@@ -41,7 +41,7 @@ See Also:
     2. https://github.com/osisoft/OSI-Samples-OMF - script is based on this code
 
 """
-__version__  =  "2019.11.21"
+__version__  =  "2019.11.25"
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -361,7 +361,7 @@ usage:
 
    endpoint: PI Server (PI Web API) config file: config-pi3.ini, data dir: data.cust1
 
-   python3 omfDemo.py -c config-pi3.ini -d data.cust1 pi3
+   python3 omfDemo.py -c config-pi3.ini -f data.cust1 pi3
 
    endpoint: PI Server (PI Connector Relay)
 
@@ -376,7 +376,7 @@ usage:
     parser.add_argument('-d', dest='verbose', action='store_true',
                         help="""display operation details""")
     parser.add_argument('-f', dest='data_dir',
-                        help="""name of the data directory/folder containing 
+                        help="""name of the data directory/folder containing
                         the OMF payload files, default: data""")
     parser.add_argument('-m', dest='message', nargs='*',
                         help="""specify message files to process,
@@ -390,18 +390,24 @@ usage:
                         help="""endpoint, one of: ocs, eds, pi3 or relay
                         (default: %(default)s). """)
     args = parser.parse_args()
+    # OMF endpoint configuration
     if args.config_omf_endpoint is not None:
         config_omf_endpoint = args.config_omf_endpoint.name
+    # files describe OMF payloads to send
     if args.data_dir is not None:
         data_dir = args.data_dir
+    # OMF supports multiple action types
     if args.action is not None:
         omf_action = str(args.action)
+    # by default all OMF message type files are sent, if not specify
     if args.message is not None:
         omf_payload = args.message
+    # what is the script doing?
     if args.verbose:
         logger.setLevel(logging.DEBUG)
         # to trigger debugging from requests, add:
         logging.debug("debug on")
+    # endpoints require different behaviour
     omf_endpoint = args.endpoint
     return args
 
@@ -434,7 +440,7 @@ omf action:             {omf_action}
 """)
         exit(0)
 
-    # determine which endpoint and instance of class object
+    # determine which endpoint and create an instance of class object
     logging.debug(f'endpoint: {omf_endpoint}')
     if omf_endpoint == "ocs":
         endpoint = ocs_omf(config_omf_endpoint)
