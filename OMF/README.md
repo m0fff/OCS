@@ -1,5 +1,5 @@
 
-Python example to send OSIsoft Message Format messages to
+Python example (omfDemo folder) to send OSIsoft Message Format messages to
 - OSIsoft Cloud Services
 - Edge Data Store
 - PI Server via PI Web API or PI Connector Relay.
